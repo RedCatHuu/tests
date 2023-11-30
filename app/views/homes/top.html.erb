@@ -5,20 +5,33 @@
       <!--<div>-->
         <%= image_tag 'sheep.png', class: "position-relative" %>
         
-        <span class="element inactive ruby">
+        <span id="ruby" class="inactive" style="display:none">
           <%= image_tag 'ruby.png', class: "position-absolute", style: "left: 15px;" %>
         </span>
         
-        <span class="element inactive santa_hat ">
+        <span id="santa_hat" style="display:none">
           <%= image_tag 'Santa hat.png', class: "position-absolute", style: "left: 15px;" %>
         </span>
+        
+        <span id="necktie" style="display:none">
+          <%= image_tag 'necktie.png', class: "position-absolute", style: "left: 15px;" %>
+        </span>
+        
+        <span id="sunglasses" style="display:none">
+          <%= image_tag 'sunglasses.png', class: "position-absolute", style: "left: 15px;" %>
+        </span>
+        
         
       <!--</div>-->
     </div>
     <div class="col-md-1 col-sm-4 mt-5">
-      <button type="button" class="ruby-btn btn btn-danger mt-3">Ruby</button>
+      <button type="button" class="ruby-btn btn btn-danger mt-3">ルビー</button>
+      <button type="button" class="santa_hat-btn btn btn-danger mt-3">サンタ帽子</button>
+      <button type="button" class="necktie-btn btn btn-danger mt-3">ネクタイ</button>
+      <button type="button" class="sunglasses-btn btn btn-danger mt-3">サングラス</button>
     </div>
-    <div class="box1"></div>
+    
+    <!--<div class="box1"></div>-->
   </div>
 </div>
 
