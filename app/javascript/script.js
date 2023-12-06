@@ -64,3 +64,12 @@ $(document).ready(function(){
     $('#sunglasses').toggle();
   })
 })
+
+$(document).ready(function(){
+  setInterval(function(){
+    $("#arrow2").animate({
+      bottom: "-=55px"}, 1000);
+    $("#arrow2").animate({
+      bottom: "+=55px"}, 1000);
+  }, 1000)
+})

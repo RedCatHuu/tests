@@ -9,3 +9,28 @@
   height: 50px;
   background-color: red;
 }
+
+#arrow1{
+  // positionの設定がないと動かない。
+  width: 30px;
+  height: 30px;
+  border: 5px solid;
+  transform: rotate(-45deg);
+}
+
+#arrow2{
+  position: absolute;
+  right: 50vw;
+  bottom: 80px;
+  width: 30px;
+  height: 30px;
+  border: 5px solid;
+  transform: rotate(-45deg);
+  border-color: transparent transparent blue blue;
+}
+
+.sec-3{
+  height: 200px;
+  margin-top: 20px;
+  position: relative;
+}
