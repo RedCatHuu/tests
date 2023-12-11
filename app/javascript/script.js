@@ -120,23 +120,23 @@ window.onload = function(){
   const context = paper.getContext("2d");
   paper.width = 400;
   paper.height = 800;
-  
+
   // 四角形
   context.fillStyle = '#429955';
   context.fillRect(0, 0, 100, 100);
   context.clearRect(100, 100, 20, 20);
-  
+
   // 重なる四角形
   context.fillStyle = 'rgba(0, 0, 200, 0.5)';
   context.fillRect(50, 50, 80, 80);
-  
+
   // 線
   context.beginPath();
   context.moveTo(240, 80);
   context.lineTo(320, 160);
   context.strokeStyle = '#420000';
   context.stroke();
-  
+
   // 三角形
   context.beginPath();
   context.moveTo(320, 160);
@@ -150,7 +150,7 @@ window.onload = function(){
   context.arc(60, 200, 50, 0, Math.PI*2, false);
   context.fillStyle = '#ff0000';
   context.fill();
-  
+
   // スマイリー
   context.beginPath();
   context.arc(50, 300, 30, 0, Math.PI*2, true);
@@ -164,24 +164,24 @@ window.onload = function(){
   context.moveTo(68, 285);
   context.arc(68, 285, 4, 0, Math.PI*2, true);
   context.stroke();
-  
+
   // 欠けた円
   context.beginPath();
   context.arc(50, 372, 40, 0, Math.PI+(Math.PI*7)/2, true);
   context.stroke();
-  
+
   // 太い線
   context.beginPath();
   context.moveTo(100, 150);
   context.lineTo(170, 270);
   context.lineWidth = 20;
   context.stroke();
-  
+
   // 文章
   context.beginPath();
   context.font = '48px serif';
   context.fillText("Hello World", 20, 50);
-  
+
 
   function loop(){
     // キャンバスの大きさ設定
@@ -207,60 +207,108 @@ window.onload = function(){
     // 言葉
     context.font = '28px serif';
     context.fillText("Hello!", xx, 550);
-    
+
     // 3. 要素を動かす
     if (x > paper.width + 50) {
     x = -50;
     } else {
     x += speed;
     }
-    
+
     if (xx < -70) {
     xx = paper.width + 50;
     } else {
     xx -= speed;
     }
-    
+
     requestAnimationFrame(render);
     })();
   } loop();
-  
+
 };
-  
-  
-  
 
 
-// $(document).ready(function(){
-//   function loop() {
-//     var paper  = document.getElementById('paper');
-//     if (typeof paper.getContext === 'undefined') {return;}
-//     var context = paper.getContext('2d');
-//     // キャンバスの大きさ設定
-//     // paper.width = 400;
-//     // paper.height = 200;
-//     // var w = paper.width;
-//     // var h = paper.height;
-//     // x軸の位置
-//     var x = 0;
-//     // 移動速度
-//     var speed = 2;
-//     (function render() {
-//     // 1. 要素を削除（キャンバス上の図形を削除）
-//     // context.clearRect(0, 0, w, h);
-//     // 2. 要素を描画
-//     context.beginPath();
-//     context.arc(x, 150, 50, 0, 2*Math.PI, false);
-//     context.fillStyle = '#ff0000';
-//     context.fill();
-//     // 3. 要素を動かす
-//     if (x > paper.width + 50) {
-//     x = -50;
-//     } else {
-//     x += speed;
-//     }
-//     requestAnimationFrame(render);
-//     })();
-//   }
-// loop();
-// })
+$(document).ready(function(){
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+  var raf;
+  var running = false;
+
+  var ball = {
+    x: 100,
+    y: 100,
+    vx: 5,
+    vy: 1,
+    radius: 25,
+    color: "blue",
+    draw: function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    },
+  };
+
+  function clear() {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function draw() {
+    clear();
+    ball.draw();
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    if (ball.y + ball.vy > canvas.height || ball.y + ball.vy < 0) {
+      ball.vy = -ball.vy;
+    }
+    if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+      ball.vx = -ball.vx;
+    }
+
+    raf = window.requestAnimationFrame(draw);
+  }
+
+  canvas.addEventListener("mousemove", function (e) {
+    if (!running) {
+      clear();
+      ball.x = e.clientX;
+      ball.y = e.clientY;
+      ball.draw();
+    }
+  });
+
+  canvas.addEventListener("click", function (e) {
+    if (!running) {
+      raf = window.requestAnimationFrame(draw);
+      running = true;
+    }
+  });
+
+  canvas.addEventListener("mouseout", function (e) {
+    window.cancelAnimationFrame(raf);
+    running = false;
+  });
+
+ball.draw();
+})
+
+$(document).ready(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    const canvas = document.getElementById("canvas-image");
+    const ctx = canvas.getContext("2d");
+    canvas.width = 300;
+    canvas.height = 600;
+    var image = new Image();
+    image = {
+      'images': {'<%= asset_path('ruby.png') %>'; // 画像のパスを取得
+    }}
+
+    image.onload = function() {
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  })
+
+})
+
