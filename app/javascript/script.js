@@ -295,20 +295,20 @@ $(document).ready(function(){
 ball.draw();
 })
 
-$(document).ready(function(){
-  document.addEventListener('DOMContentLoaded', function(){
-    const canvas = document.getElementById("canvas-image");
-    const ctx = canvas.getContext("2d");
-    canvas.width = 300;
-    canvas.height = 600;
-    var image = new Image();
-    image = {
-      'images': {'<%= asset_path('ruby.png') %>'; // 画像のパスを取得
-    }}
+// $(document).ready(function(){
+//   document.addEventListener('DOMContentLoaded', function(){
+//     const canvas = document.getElementById("canvas-image");
+//     const ctx = canvas.getContext("2d");
+//     canvas.width = 300;
+//     canvas.height = 600;
+//     var image = new Image();
+//     image = {
+//       'images': {'<%= asset_path('ruby.png') %>'; // 画像のパスを取得
+//     }}
 
-    image.onload = function() {
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
-  })
+//     image.onload = function() {
+//     context.drawImage(image, 0, 0, canvas.width, canvas.height);
+//   })
 
-})
+// })たぶん画像を取ってこようとして失敗したんだと思う。
 
