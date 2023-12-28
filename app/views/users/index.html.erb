@@ -1,3 +1,10 @@
 <%= render "layouts/frame", title: "index" do %>
+
 index page
+<%= image_tag "rubyman_shibainu.png" %>
+<%= image_tag @image %>
+<%= image_tag @image, size:("100x100") %>
+<!--変数に入れた画像に対してvariantは使えない-->
+<!--%= image_tag @image.variant(resize:'100x100') %>-->
+
 <% end %>
