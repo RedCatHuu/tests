@@ -1,10 +1,29 @@
 <%= render "layouts/frame", title: "index" do %>
 
-index page
-<%= image_tag "rubyman_shibainu.png" %>
-<%= image_tag @image %>
-<%= image_tag @image, size:("100x100") %>
-<!--変数に入れた画像に対してvariantは使えない-->
-<!--%= image_tag @image.variant(resize:'100x100') %>-->
-
+  index page
+  <%= image_tag "rubyman_shibainu.png" %>
+  <%= image_tag @image %>
+  <%= image_tag @image, size:("100x100") %>
+  <!--変数に入れた画像に対してvariantは使えない-->
+  <!--%= image_tag @image.variant(resize:'100x100') %>-->
+  
+  <%= form_with model: User.new do |f| %>
+    <%= f.text_field :name %>
+    <%= f.file_field :image, accept: "image/*" %>
+    <%= f.submit "ユーザーを保存" %>
+  <% end %>
+  
+  <table class="table">
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= image_tag user.get_image.variant(resize:"100x100").processed %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  
+  
 <% end %>
