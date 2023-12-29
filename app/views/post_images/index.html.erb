@@ -21,7 +21,11 @@
     <tbody>
       <% @post_images.each do |post_image| %>
         <tr>
-          <td class="text-light"><%= post_image.name %></td>
+          <td>
+            <%= link_to post_image_path(post_image), class:"text-light"  do %>
+              <%= post_image.name %>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <td style="width: 250px;">

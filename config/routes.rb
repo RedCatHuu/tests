@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   get'homes/magick'
   get'homes/index'
   
-  resources :post_images, only:[:create, :index, :show]
   resources :users, only:[:create, :index, :show]
+  resources :post_images, only:[:create, :index, :show] do
+    member do
+      get :save
+    end 
+  end 
+  
 end

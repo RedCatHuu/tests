@@ -1,3 +1,5 @@
 <div>
-  メッセージ[<%= flash[:notice] %>]
+  <% if flash.present? %>
+    メッセージ[<%= flash[:notice] %>]
+  <% end %>
 </div>

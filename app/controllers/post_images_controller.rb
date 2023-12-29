@@ -4,6 +4,10 @@ class PostImagesController < ApplicationController
     @post_images = PostImage.all
   end 
   
+  def show
+    @post_image = PostImage.find(params[:id])
+  end
+  
   def create
     post_image = PostImage.new(post_image_params)
     post_image.user_id = 3
@@ -11,9 +15,29 @@ class PostImagesController < ApplicationController
       redirect_to post_images_path
     else
       @post_images = PostImage.all
-      flash.now[:notice] = "失敗"
+      flash.now[:notice] = "失敗しました。"
       render :index
     end
+  end 
+  
+  def save
+    require "mini_magick"
+    
+    post_image = PostImage.find(params[:id])
+    base_image = post_image.base_image
+    base_image = base_image.download
+    base_image = MiniMagick::Image.read(base_image)
+    
+    input_path = post_image.images[1]
+    result = base_image.composite(MiniMagick::Image.open(input_path)) do |config|
+      config.compose "Over"
+      config.gravity "NorthWest"
+      # 座標を動かせる。x, yの順。
+      # config.geometry "+90+80"
+    end 
+    send_data result.to_blob, type: "image/png", disposition: "attachment"
+    # redirect_to post_images_path
+    
   end 
   
   private
