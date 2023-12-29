@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get'homes/image' => 'homes#image'
   get'homes/head' => 'homes#head'
   get'homes/magick'
+  get'homes/index'
   
-  resources :users
+  resources :post_images, only:[:create, :index, :show]
+  resources :users, only:[:create, :index, :show]
 end

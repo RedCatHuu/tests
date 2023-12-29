@@ -1,0 +1,9 @@
+<%= render "layouts/frame", title: "post_image_index" do %>
+  
+  <%= form_with model: PostImage.new do |f| %>
+    <%= f.text_field :name %>
+    <%= f.file_field :images, accept: "image/*" %>
+    <%= f.submit "画像を登録" %>
+  <% end %>
+  
+<% end %>
