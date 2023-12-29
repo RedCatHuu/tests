@@ -1,7 +1,5 @@
-<div class="text-light" style="height: 50px; background-color: #aaaaaa">
-  <p>
-    ヘッダー<br>
-    ヘッダー
-  </p>
-  <p>これは<%= yield(:title) %> pageです。</p>
+<div class="row justify-content-center no-gutters" style="height: 50px; background-color: #aaaaaa">
+  <div class="col-10">
+    <%= link_to "index", homes_index_path, class:"pl-5 text-light" %>
+  </div>
 </div>

@@ -1,0 +1,45 @@
+<%= render "layouts/frame", title: "post_image_index" do %>
+  
+  <%= form_with model: PostImage.new do |f| %>
+    <div>
+      <%= f.label :name, "タイトル" %>
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.label :base_image, "ベース画像" %>
+      <%= f.file_field :base_image, accept: "image/*" %>
+    </div>
+    <div>
+      <%= f.label :images, "付属画像" %>
+      <%= f.file_field :images, multiple: true, accept: "image/*" %>
+    </div>
+    
+    <%= f.submit "画像を登録" %>
+  <% end %>
+  
+  <table class="table">
+    <tbody>
+      <% @post_images.each do |post_image| %>
+        <tr>
+          <td>
+            <%= link_to post_image_path(post_image), class:"text-light"  do %>
+              <%= post_image.name %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 250px;">
+            <% if post_image.base_image.present? %>
+              <%= image_tag post_image.base_image, size:"100x100" %>
+            <% end %>  
+          </td>
+          <% post_image.images.each do |image| %>
+            <td><%= image_tag image.variant(resize: '50x50') %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  
+<% end %>

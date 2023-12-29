@@ -1,0 +1,13 @@
+<%= render 'layouts/frame', title: "post_image_show" do %>
+  <%= link_to "戻る", post_images_path, class:"text-light" %>
+  <div class="mt-3">
+    <% if @post_image.base_image.present? %>
+      <%= image_tag @post_image.base_image %>
+    <% end %> 
+    
+    <% @post_image.images.each do |image| %>
+      <span><%= image_tag image %></span>
+    <% end %>
+  </div>
+  <%= link_to "Download", save_post_image_path, class:"text-light" %>
+<% end %>
