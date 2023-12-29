@@ -4,8 +4,15 @@
   <%= image_tag "rubyman_shibainu.png" %>
   <%= image_tag @image %>
   <%= image_tag @image, size:("100x100") %>
-  <!--変数に入れた画像に対してvariantは使えない-->
+  <!--↓変数に入れた画像に対してvariantは使えない-->
   <!--%= image_tag @image.variant(resize:'100x100') %>-->
+  <%= p @image_magick %>
+  <%= p @image_magick.path %>
+  <!--各種情報呼び出し。何に使えるのか？-->-->
+  <!--%= p @image_magick.details %>--><br>
+  <%= @image_magick.write @image %><br>
+  <%= @image_magick.write @image %>
+  <%= image_tag @user_image %>
   
   <%= form_with model: User.new do |f| %>
     <%= f.text_field :name %>
@@ -17,7 +24,7 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.name %></td>
+          <td><%= user.name %><%= user.id %></td>
           <td><%= image_tag user.get_image.variant(resize:"100x100").processed %></td>
         </tr>
       <% end %>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get'homes/advansed' => 'homes#advansed'
   get'homes/image' => 'homes#image'
   get'homes/head' => 'homes#head'
+  get'homes/magick'
   
   resources :users
 end
