@@ -35,7 +35,7 @@ class PostImagesController < ApplicationController
       # 座標を動かせる。x, yの順。
       # config.geometry "+90+80"
     end 
-    # send_data result.to_blob, type: "image/png", disposition: "attachment; filename = fine.png"
+    send_data result.to_blob, type: "image/png", disposition: "attachment; filename = fine.png"
   end 
   
   def back

@@ -13,4 +13,14 @@
     <%= link_to "Download", save_post_image_path, class:"text-light" %>
   </div>
   
+  <%= form_with model: @post_image do |f| %>
+    <div>
+      <% f.radio_button :images, 0 %>
+      <%= f.label :images_0 do %>
+        <%= image_tag @post_image.images[0] %>
+      <% end %>
+    </div>
+    <%= f.submit "チェックボックスの情報を送る" %>
+    
+  <% end %>
 <% end %>
