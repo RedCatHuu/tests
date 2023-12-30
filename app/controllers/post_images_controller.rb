@@ -28,15 +28,17 @@ class PostImagesController < ApplicationController
     base_image = base_image.download
     base_image = MiniMagick::Image.read(base_image)
     
-    input_path = post_image.images[1]
+    input_path = post_image.images[0]
     result = base_image.composite(MiniMagick::Image.open(input_path)) do |config|
       config.compose "Over"
       config.gravity "NorthWest"
       # 座標を動かせる。x, yの順。
       # config.geometry "+90+80"
     end 
-    send_data result.to_blob, type: "image/png", disposition: "attachment"
-    # redirect_to post_images_path
+    # send_data result.to_blob, type: "image/png", disposition: "attachment; filename = fine.png"
+  end 
+  
+  def back
     
   end 
   

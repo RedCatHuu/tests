@@ -311,4 +311,6 @@ ball.draw();
 //   })
 
 // })たぶん画像を取ってこようとして失敗したんだと思う。
-
+$(document).ready(function(){
+  console.log("クリック")
+})
