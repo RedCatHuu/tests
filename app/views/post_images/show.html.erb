@@ -34,7 +34,7 @@
   <%= form_with model: @post_image do |f| %>
     <% for num in 0..size -1 do %>
       <%= f.radio_button :images, num %>
-      <%= f.label :images do %>
+      <%= f.label :"images_#{num}" do %>
         <%= image_tag @post_image.images[num] %>
       <% end %>
     <% end %>
