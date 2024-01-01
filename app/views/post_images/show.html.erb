@@ -30,12 +30,24 @@
     <%= image_tag @post_image.images[num] %>
   <% end %>
   
-  <!--for文を使った画像のチェックボックス化-->
+  <!--for文を使った画像のラジオボックス化-->
   <%= form_with model: @post_image do |f| %>
     <% for num in 0..size -1 do %>
       <%= f.radio_button :images, num %>
       <%= f.label :"images_#{num}" do %>
         <%= image_tag @post_image.images[num] %>
+      <% end %>
+    <% end %>
+    <%= f.submit 'ラジオボックスの情報を送る' %>
+  <% end %>
+  
+  <!--for文を使った画像のチェックボックス化-->
+  <%= form_with model: @post_image do |f| %>
+    <% for cnum in 0..size -1 do %>
+    <!--カラム名がradio_buttonと同じだと、check_boxを選択してもradioが選択されてしまうので、"_c"を追加。-->
+      <%= f.check_box :images_c, { multiple: true }, cnum, nil %>
+      <%= f.label :"images_c_#{cnum}" do %>
+        <%= image_tag @post_image.images[cnum] %>
       <% end %>
     <% end %>
     <%= f.submit 'チェックボックスの情報を送る' %>
