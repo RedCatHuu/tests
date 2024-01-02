@@ -10,7 +10,7 @@
     <% end %>
   </div>
   <div id="download">
-    <%= link_to "Download", save_post_image_path, class:"text-light" %>
+    <%= link_to "Download", save_post_image_path, method: :post, class:"text-light" %>
   </div>
   
   <!--each分を使った画像のチェックボックス化-->
@@ -51,6 +51,17 @@
       <% end %>
     <% end %>
     <%= f.submit 'チェックボックスの情報を送る' %>
+  <% end %>
+  
+   <!--チェックボックスで選択した画像の合成-->
+  <%= form_with model: @post_image, url: download_post_image_path, method: :post do |f| %>
+    <% for cnum in 0..size -1 do %>
+      <%= f.check_box :images_d, { multiple: true }, cnum, nil %>
+      <%= f.label :"images_d_#{cnum}" do %>
+        <%= image_tag @post_image.images[cnum] %>
+      <% end %>
+    <% end %>
+    <%= f.submit 'チェックボックスで選択した画像の合成' %>
   <% end %>
     
 <% end %>

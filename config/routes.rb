@@ -12,8 +12,8 @@ Rails.application.routes.draw do
   resources :users, only:[:create, :index, :show]
   resources :post_images, only:[:create, :index, :show] do
     member do
-      get :save
-      get :back
+      post :save
+      post :download
     end
   end 
   
