@@ -62,7 +62,7 @@ class PostImagesController < ApplicationController
   
   def custome
     @post_image = PostImage.find(params[:id])
-    @size = @post_image.size
+    @size = @post_image.size - 1
   end
   
   private

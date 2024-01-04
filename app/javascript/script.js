@@ -314,11 +314,3 @@ ball.draw();
 $(document).ready(function(){
   console.log("クリック")
 })
-
-// チェックボックスをクリックして画像の表示、非表示
-$(document).ready(function(){
-  $('.santa_hat-btn').on('click', function(){
-    console.log('button clicked!');
-    $('#santa_hat').toggle();
-  })
-})

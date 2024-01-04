@@ -1,17 +1,40 @@
 <%= render 'layouts/frame', title: "custome" do %>
   <%= link_to "戻る", post_image_path(@post_image), class:"text-light mb-3" %><br>
   
-  <%= image_tag @post_image.base_image %>
+  <div class="position-relative">
+    <%= image_tag @post_image.base_image, class:"position-absolute", style:"z-index: -1" %>
+    <% for image_num in 0..@size do %>
+      <span class="#{image_num}" style="display: none">
+        <%= image_tag @post_image.images[image_num], class:"position-absolute" %>
+      </span>
+    <% end %>
+  </div>
   
+  <div style="height: 200px"></div>
+  <div>
    <!--チェックボックスで選択した画像の合成-->
   <%= form_with model: @post_image, url: download_post_image_path, method: :post do |f| %>
-    <% for cnum in 0..@size -1 do %>
+    <% for cnum in 0..@size do %>
       <%= f.check_box :images_d, { multiple: true }, cnum, nil %>
-      <%= f.label :"images_d_#{cnum}" do %>
+      <%= f.label :"images_d_#{cnum}", class:"images_d_#{cnum}" do %>
         <%= image_tag @post_image.images[cnum] %>
       <% end %>
     <% end %>
+    <br>
     <%= f.submit 'チェックボックスで選択した画像の合成' %>
   <% end %>
-
+  </div>
+  
 <% end %>
+
+<script>
+  // チェックボックスをクリックして画像の表示、非表示
+  let clicked_image
+  // clicked_image = cnum
+  $(document).ready(function(){
+    $('.images_d_' + cnum ).on('click', function(){
+      console.log('button clicked!');
+      // $('#santa_hat').toggle();
+    })
+  })
+</script>
