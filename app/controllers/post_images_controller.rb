@@ -42,20 +42,28 @@ class PostImagesController < ApplicationController
     # post_image"=>{"images_d"=>["0", "1"]}
     require "mini_magick"
     which_images = params[:post_image][:images_d]
-    size = which_images.size
+    # size = which_images.size
     
     post_image = PostImage.find(params[:id])
     base_image = post_image.base_image
     base_image = base_image.download
     base_image = MiniMagick::Image.read(base_image)
     
-    for i in 0..size - 1 do
-      input = post_image.images[i]
+    which_images.each do |nth_image|
+      input = post_image.images[nth_image.to_i]
       base_image = base_image.composite(MiniMagick::Image.open(input)) do |config|
         config.compose "Over"
         config.gravity "NorthWest"
       end 
-    end 
+    end
+    # これだと前から順番に取得してしまう。
+    # for i in 0..size - 1 do
+    #   input = post_image.images[i]
+    #   base_image = base_image.composite(MiniMagick::Image.open(input)) do |config|
+    #     config.compose "Over"
+    #     config.gravity "NorthWest"
+    #   end 
+    # end 
     result = base_image
     send_data result.to_blob, type: "image/png", disposition: "attachment; filename = fine.png"
   end 
