@@ -1,0 +1,17 @@
+<%= render 'layouts/frame', title: "custome" do %>
+  <%= link_to "戻る", post_image_path(@post_image), class:"text-light mb-3" %><br>
+  
+  <%= image_tag @post_image.base_image %>
+  
+   <!--チェックボックスで選択した画像の合成-->
+  <%= form_with model: @post_image, url: download_post_image_path, method: :post do |f| %>
+    <% for cnum in 0..@size -1 do %>
+      <%= f.check_box :images_d, { multiple: true }, cnum, nil %>
+      <%= f.label :"images_d_#{cnum}" do %>
+        <%= image_tag @post_image.images[cnum] %>
+      <% end %>
+    <% end %>
+    <%= f.submit 'チェックボックスで選択した画像の合成' %>
+  <% end %>
+
+<% end %>

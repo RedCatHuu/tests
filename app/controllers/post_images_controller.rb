@@ -60,6 +60,11 @@ class PostImagesController < ApplicationController
     send_data result.to_blob, type: "image/png", disposition: "attachment; filename = fine.png"
   end 
   
+  def custome
+    @post_image = PostImage.find(params[:id])
+    @size = @post_image.size
+  end
+  
   private
   
   def post_image_params

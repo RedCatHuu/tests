@@ -4,5 +4,9 @@ class PostImage < ApplicationRecord
   has_many_attached :images
   
   validates :name, :base_image, :images, presence: true
+  
+  def size
+    self.images.count
+  end 
 
 end

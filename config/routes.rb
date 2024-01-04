@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get'homes/top' => 'homes#top'
   get'homes/advansed' => 'homes#advansed'
   get'homes/image' => 'homes#image'
-  get'homes/head' => 'homes#head'
   get'homes/magick'
   get'homes/index'
   
@@ -14,6 +13,7 @@ Rails.application.routes.draw do
     member do
       post :save
       post :download
+      get :custome
     end
   end 
   
