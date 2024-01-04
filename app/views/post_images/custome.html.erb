@@ -1,15 +1,18 @@
 <%= render 'layouts/frame', title: "custome" do %>
   <%= link_to "戻る", post_image_path(@post_image), class:"text-light mb-3" %><br>
   
+  <!--実際に画像が動くところ-->
+  <!--変数名はimage_numよりもnth_imageのほうがいいね-->
   <div class="position-relative">
-    <%= image_tag @post_image.base_image, class:"position-absolute", style:"z-index: -1" %>
+    <%= image_tag @post_image.base_image, class:"position-absolute a", style:"z-index: -1" %>
     <% for image_num in 0..@size do %>
-      <span class="#{image_num}" style="display: none">
+      <span class="image_<%= image_num %>" style="display: none">
         <%= image_tag @post_image.images[image_num], class:"position-absolute" %>
       </span>
     <% end %>
   </div>
   
+  <!--スペース用の空div-->
   <div style="height: 200px"></div>
   <div>
    <!--チェックボックスで選択した画像の合成-->
@@ -25,16 +28,23 @@
   <% end %>
   </div>
   
+  <button class="button">ボタン</button>
+  
 <% end %>
 
 <script>
   // チェックボックスをクリックして画像の表示、非表示
-  let clicked_image
-  // clicked_image = cnum
+  let size = "<%= @size %>";
   $(document).ready(function(){
-    $('.images_d_' + cnum ).on('click', function(){
-      console.log('button clicked!');
-      // $('#santa_hat').toggle();
-    })
+    
+    for (let i = 0; i <= size; i++){
+      $('.button').on('click', function(){
+        console.log('button clicked!');
+      })
+      $('.images_d_' + i ).on('click', function(){
+        console.log(i + 'button clicked!');
+      $('.image_' + i ).toggle();
+      })
+    }
   })
 </script>
