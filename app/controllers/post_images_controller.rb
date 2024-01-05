@@ -6,6 +6,12 @@ class PostImagesController < ApplicationController
   
   def show
     @post_image = PostImage.find(params[:id])
+    input_path = @post_image.images[1]
+    # image = MiniMagick::Image.open(input_path)
+    # @trimed_image = image.trim
+    # @trimed_image = input_path
+    # @trimed_image = @post_image.images.trim_image
+    @trimed_image = trim_image(input_path)
   end
   
   def create
@@ -78,5 +84,27 @@ class PostImagesController < ApplicationController
   def post_image_params
     params.require(:post_image).permit(:name, :base_image, images: [])
   end 
+  
+  def trim_image(attachment)
+    # Active Storageの添付ファイルからMiniMagick::Imageオブジェクトを生成
+    image = MiniMagick::Image.read(attachment.download)
+    
+    # 画像をトリミング
+    image.trim
+    
+    # トリミングされた画像を新しいBlobに保存
+    new_blob = ActiveStorage::Blob.create_after_upload!(
+      io: File.open(image.path),
+      filename: "trimmed_#{attachment.filename}",
+      content_type: image.mime_type
+    )
+  
+    # トリミング前のBlobを削除
+    attachment.blob.purge
+  
+    # 新しいBlobを添付ファイルに関連付け
+    attachment.update(blob: new_blob)
+  end
+
   
 end
