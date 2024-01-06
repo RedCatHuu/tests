@@ -79,6 +79,12 @@ class PostImagesController < ApplicationController
     @size = @post_image.size - 1
   end
   
+  def thumbnail
+    @post_image = PostImage.find(params[:id])
+    @thumbnail = @post_image.make_thumbnail
+    @size = @post_image.size - 1
+  end
+  
   private
   
   def post_image_params
@@ -93,23 +99,31 @@ class PostImagesController < ApplicationController
     image.trim
     
     # トリミングされた画像を一時ファイルに保存
+    # "trimmed_"で始まり、拡張子は元の画像の拡張子と同じになる一時ファイルを生成する。
     tmp_file = Tempfile.new(['trimmed_', ".#{image.type.downcase}"], 'tmp')
+    # MiniMagick::Imageオブジェクトで処理された(ここではトリム)画像を一時ファイルに書き込む
     image.write(tmp_file.path)
     tmp_file.rewind
   
-    # 一時ファイルをActiveStorageにアタッチ
+    # 一時ファイルをActiveStorageにアタッチ。
+    # MiniMagickで加工した画像をそのままviewで表示することはできないため、active_storageに保存する。
     trimmed_blob = ActiveStorage::Blob.create_and_upload!(
       io: tmp_file,
       filename: "trimmed_#{attachment.filename}",
       content_type: image.mime_type
     )
   
-    # 一時ファイルをクローズ
+    # 一時ファイルをクローズ。一時ファイルは消すとリソースが解放される。
     tmp_file.close
     tmp_file.unlink
   
     return trimmed_blob
   end
-
+  
+  def self.make_thumbnail 
+    images.each do |image|
+      trim_image(image)
+    end
+  end
   
 end

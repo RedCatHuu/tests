@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       post :save
       post :download
       get :custome
+      get :thumbnail
     end
   end 
   
