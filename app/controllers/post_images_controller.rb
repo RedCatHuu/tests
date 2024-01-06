@@ -8,8 +8,6 @@ class PostImagesController < ApplicationController
     @post_image = PostImage.find(params[:id])
     input_path = @post_image.images[1]
     # image = MiniMagick::Image.open(input_path)
-    # @trimed_image = image.trim
-    # @trimed_image = input_path
     # @trimed_image = @post_image.images.trim_image
     @trimed_image = trim_image(input_path)
   end
@@ -17,7 +15,27 @@ class PostImagesController < ApplicationController
   def create
     post_image = PostImage.new(post_image_params)
     post_image.user_id = 3
+    
+    # images = params[:post_image][:images]
+    
+    
     if post_image.save
+      post_image.images.each do |img|
+        downloaded_image = img.download
+        image = MiniMagick::Image.read(downloaded_image)
+        image.trim
+        tmp_file = Tempfile.new(['trimmed_', ".#{image.type.downcase}"], 'tmp')
+        image.write(tmp_file.path)
+        tmp_file.rewind
+        trimmed_blob = ActiveStorage::Blob.create_and_upload!(
+          io: tmp_file,
+          filename: "trimmed_#{img.filename}",
+          content_type: image.mime_type
+        )
+        post_image.thumbnails.attach(trimmed_blob)
+        tmp_file.close
+        tmp_file.unlink
+      end
       redirect_to post_images_path
     else
       @post_images = PostImage.all
@@ -81,8 +99,13 @@ class PostImagesController < ApplicationController
   
   def thumbnail
     @post_image = PostImage.find(params[:id])
-    @thumbnail = @post_image.make_thumbnail
     @size = @post_image.size - 1
+    # input = @post_image.images[0]
+    # images = trim_image(input)
+    # @post_image.images.each do |image|
+    #   images = images + trim_image(image)
+    # end 
+    # @trimmed_images = images
   end
   
   private
@@ -120,10 +143,5 @@ class PostImagesController < ApplicationController
     return trimmed_blob
   end
   
-  def self.make_thumbnail 
-    images.each do |image|
-      trim_image(image)
-    end
-  end
   
 end
