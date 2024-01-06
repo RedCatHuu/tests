@@ -5,15 +5,16 @@ Rails.application.routes.draw do
   get'homes/top' => 'homes#top'
   get'homes/advansed' => 'homes#advansed'
   get'homes/image' => 'homes#image'
-  get'homes/head' => 'homes#head'
   get'homes/magick'
   get'homes/index'
   
   resources :users, only:[:create, :index, :show]
   resources :post_images, only:[:create, :index, :show] do
     member do
-      get :save
-    end 
+      post :save
+      post :download
+      get :custome
+    end
   end 
   
 end
