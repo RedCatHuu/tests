@@ -92,18 +92,23 @@ class PostImagesController < ApplicationController
     # 画像をトリミング
     image.trim
     
-    # トリミングされた画像を新しいBlobに保存
-    new_blob = ActiveStorage::Blob.create_after_upload!(
-      io: File.open(image.path),
+    # トリミングされた画像を一時ファイルに保存
+    tmp_file = Tempfile.new(['trimmed_', ".#{image.type.downcase}"], 'tmp')
+    image.write(tmp_file.path)
+    tmp_file.rewind
+  
+    # 一時ファイルをActiveStorageにアタッチ
+    trimmed_blob = ActiveStorage::Blob.create_and_upload!(
+      io: tmp_file,
       filename: "trimmed_#{attachment.filename}",
       content_type: image.mime_type
     )
   
-    # トリミング前のBlobを削除
-    attachment.blob.purge
+    # 一時ファイルをクローズ
+    tmp_file.close
+    tmp_file.unlink
   
-    # 新しいBlobを添付ファイルに関連付け
-    attachment.update(blob: new_blob)
+    return trimmed_blob
   end
 
   
