@@ -2,6 +2,7 @@ class PostImage < ApplicationRecord
   belongs_to :user
   has_one_attached :base_image
   has_many_attached :images
+  has_many_attached :thumbnails
   
   validates :name, :base_image, :images, presence: true
   
@@ -9,11 +10,10 @@ class PostImage < ApplicationRecord
     self.images.count
   end 
   
-  def trimming(integer)
-    input_path = self.images[integer]
-    image = MiniMagick::Image.open(input_path)
-    image.trim
-    image.write(a)
+  
+  def make_thumbnail 
+    
   end
+  
 
 end

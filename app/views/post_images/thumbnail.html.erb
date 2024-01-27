@@ -1,0 +1,48 @@
+<%= render 'layouts/frame', title: "thumbnail" do %>
+  <%= link_to "戻る", post_image_path(@post_image), class:"text-light mb-3" %><br>
+  
+  <!--実際に画像が動くところ-->
+  <!--変数名はimage_numよりもnth_imageのほうがいいね-->
+  <div class="position-relative">
+    <%= image_tag @post_image.base_image, class:"position-absolute a", style:"z-index: -1" %>
+    <% for image_num in 0..@size do %>
+      <span class="image_<%= image_num %>" style="display: none">
+        <%= image_tag @post_image.images[image_num], class:"position-absolute" %>
+      </span>
+    <% end %>
+  </div>
+  
+  <!--スペース用の空div-->
+  <div style="height: 200px"></div>
+  <div>
+   <!--チェックボックスで選択した画像の合成-->
+  <%= form_with model: @post_image, url: download_post_image_path, method: :post do |f| %>
+    <% for cnum in 0..@size do %>
+      <%= f.check_box :images_d, { multiple: true }, cnum, nil %>
+      <%= f.label :"images_d_#{cnum}", class:"images_d_#{cnum}" do %>
+        <%= image_tag @post_image.thumbnails[cnum] %>
+      <% end %>
+    <% end %>
+    <br>
+    <%= f.submit 'チェックボックスで選択した画像の合成' %>
+  <% end %>
+  </div>
+  
+<% end %>
+
+<script>
+  // チェックボックスをクリックして画像の表示、非表示
+  let size = "<%= @size %>";
+  $(document).ready(function(){
+    
+    for (let i = 0; i <= size; i++){
+      $('.button').on('click', function(){
+        console.log('button clicked!');
+      })
+      $('.images_d_' + i ).on('click', function(){
+        console.log(i + 'button clicked!');
+      $('.image_' + i ).toggle();
+      })
+    }
+  })
+</script>
